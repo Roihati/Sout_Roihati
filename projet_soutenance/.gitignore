@@ -1,0 +1,8 @@
+# Ignorer les fichiers de log
+storage/logs/*.log
+
+# Ignorer le répertoire des fichiers temporaires
+storage/framework/cache/*
+
+# Ignorer le répertoire vendor (si vous ne voulez pas le suivre)
+vendor/

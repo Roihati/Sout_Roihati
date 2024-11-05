@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::dropIfExists('jobs');
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            #$table->string('id', 255)->primary();
+            
             $table->string('queue',191)->index();
             $table->longText('payload');
             $table->unsignedTinyInteger('attempts');

@@ -46,7 +46,7 @@ return [
     // ----
 
     // Project name - shown in the window title
-    'project_name' => 'Backpack Admin Panel',
+    'project_name' => 'Super Admin ',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
@@ -63,7 +63,9 @@ return [
     'home_link' => '',
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo' => '<b>Back</b>pack',
+    'project_logo' => '<b>Super</b>Admin',
+
+    
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -86,7 +88,7 @@ return [
     // ---------
 
     // Show "Getting Started with Backpack" info block?
-    'show_getting_started' => env('APP_ENV') == 'local',
+    'show_getting_started' => env('APP_ENV') == 'false',
 
     // -------------
     // GLOBAL STYLES

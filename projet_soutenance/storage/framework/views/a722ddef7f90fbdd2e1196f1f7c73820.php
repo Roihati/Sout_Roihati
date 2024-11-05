@@ -3,7 +3,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('tittle'); ?>
-<title>Page home</title>
+<title >Page home</title>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('style'); ?>

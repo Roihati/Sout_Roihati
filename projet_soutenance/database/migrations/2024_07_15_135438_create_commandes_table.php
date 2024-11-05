@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
             $table->string('quantite');
+            $table->string('suppermarche');
+            $table->string('produit');
             $table->string('status')->default('pending');
             $table->Date('date_livraison');
-            $table->foreignId('produit_id')->references('id');
-            $table->foreignId('user_id')->references('id');
+           # $table->foreignId('produit_id')->references('id');
+           # $table->foreignId('user_id')->references('id');
             $table->timestamps();
         });
     }

@@ -221,18 +221,63 @@ button:hover {
         }
     });
 
+  
     function generatePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.setFontSize(18);
-        doc.text('Reçu de Commandes', 105, 20, null, null, 'center');
-        doc.setFontSize(12);
-        doc.text(`Reçues: ${orderData.received}`, 20, 40);
-        doc.text(`En Traitement: ${orderData.processing}`, 20, 50);
-        doc.text(`Expédiées: ${orderData.shipped}`, 20, 60);
-        doc.text(`Livrées: ${orderData.delivered}`, 20, 70);
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 90);
-        doc.save('recu-commandes.pdf');
-    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Titre
+    doc.setFontSize(18);
+    doc.text('Reçu de Commandes', 105, 20, null, null, 'center');
+    
+    // Données de commande
+    const orderData = {
+        received: 10, 
+        processing: 5, 
+        shipped: 8, 
+        delivered: 7
+    };
+
+    // Styles
+    const colors = {
+        received: '#D1E7DD',
+        processing: '#FFF3CD',
+        shipped: '#CFE2FF',
+        delivered: '#F8D7DA'
+    };
+
+    const yStart = 40; // Position de départ verticale
+    const lineHeight = 10; // Hauteur de la ligne
+
+    // Remplissage et texte pour chaque section
+    doc.setFontSize(12);
+
+    // Reçues
+    doc.setFillColor(colors.received);
+    doc.rect(20, yStart, 170, lineHeight, 'F');
+    doc.text(`Reçues: ${orderData.received}`, 25, yStart + 7);
+
+    // En Traitement
+    doc.setFillColor(colors.processing);
+    doc.rect(20, yStart + lineHeight, 170, lineHeight, 'F');
+    doc.text(`En Traitement: ${orderData.processing}`, 25, yStart + lineHeight + 7);
+
+    // Expédiées
+    doc.setFillColor(colors.shipped);
+    doc.rect(20, yStart + lineHeight * 2, 170, lineHeight, 'F');
+    doc.text(`Expédiées: ${orderData.shipped}`, 25, yStart + lineHeight * 2 + 7);
+
+    // Livrées
+    doc.setFillColor(colors.delivered);
+    doc.rect(20, yStart + lineHeight * 3, 170, lineHeight, 'F');
+    doc.text(`Livrées: ${orderData.delivered}`, 25, yStart + lineHeight * 3 + 7);
+
+    // Date
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, yStart + lineHeight * 4 + 10);
+    
+    // Sauvegarder le PDF
+    doc.save('recu-commandes.pdf');
+}
+    
     </script>
 </body></html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/suivicommande.blade.php ENDPATH**/ ?>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture MVC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .box {
+            width: 200px;
+            height: 100px;
+            margin: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .utilisateur { background-color: #3498db; } /* Bleu */
+        .controleur { background-color: #e67e22; } /* Orange */
+        .modele { background-color: #2ecc71; } /* Vert */
+        .vue { background-color: #9b59b6; } /* Violet */
+        .arrow {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Architecture MVC</h2>
+
+<div class="box utilisateur">Utilisateur</div>
+<div class="arrow">➔</div>
+<div class="box controleur">Contrôleur</div>
+<div class="arrow">➔</div>
+<div class="box modele">Modèle</div>
+<div class="arrow">➔</div>
+<div class="box vue">Vue</div>
+
+<script>
+    // Vous pouvez ajouter des animations ou des interactions ici si nécessaire
+</script>
+
+</body>
+</html>

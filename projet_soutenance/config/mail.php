@@ -42,16 +42,25 @@ return [
         ],
     ],
 
+
+    //configure 
+    
+    'driver' => env('MAIL_MAILER', 'smtp'),
     'mailers' => [
 
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('emails.contact'),
-            'host' => env('MAIL_HOST', '127.0.0.1:8025'),
-            'port' => env('MAIL_PORT', 2525),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'host' => env('MAIL_HOST', '127.0.0.1'),
+            'port' => env('MAIL_PORT', 1025),
+            'encryption' => env('MAIL_ENCRYPTION', 'null'),
             'username' => env('roihatibinti@gmail.com'),
-            'password' => env('2114binti'),
+            'password' => env('=binti2114'),
+
+            'from' => [
+    'address' => env('MAIL_FROM_ADDRESS', 'roihatibinti@gmail.com'),
+    'name' => env('MAIL_FROM_NAME', 'Example'),
+],
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
@@ -103,6 +112,8 @@ return [
     |
     */
 
+
+    
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'roihatibinti@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Contact'),

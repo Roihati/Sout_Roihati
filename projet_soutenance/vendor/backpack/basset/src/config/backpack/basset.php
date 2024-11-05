@@ -14,10 +14,12 @@ return [
     // use cache map file (.basset)
     'cache_map' => env('BASSET_CACHE_MAP', true),
 
+
     // view paths that may use @basset
     // used to internalize assets in advance with artisan basset:internalize
     'view_paths' => [
         resource_path('views'),
+        
     ],
 
     // content security policy nonce

@@ -1,48 +1,33 @@
-// app/Http/Controllers/CommandeController.php
-namespace App\Http\Controllers;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-use App\Models\Commande;
-use Illuminate\Http\Request;
-
-class CommandeController extends Controller
+class AbonnementCreated extends Notification
 {
-    public function index()
+    use Queueable;
+
+    protected $abonnement;
+
+    public function __construct(Abonnement $abonnement)
     {
-        $commandes = Commande::all();
-        return view('fournisseur.gestion_commandes', compact('commandes'));
+        $this->abonnement = $abonnement;
     }
 
-    public function store(Request $request)
+    public function via($notifiable)
     {
-        $request->validate([
-            'fournisseur' => 'required|string|max:255',
-            'produit' => 'required|string|max:255',
-            'quantite' => 'required|integer|min:1',
-            'date_livraison' => 'required|date',
-        ]);
-
-        Commande::create($request->all());
-
-        return response()->json(['success' => 'Commande ajoutée avec succès.']);
+        return ['mail'];
     }
 
-    public function update(Request $request, $id)
+    public function toMail($notifiable)
     {
-        $request->validate([
-            'statut' => 'required|string|max:255',
-        ]);
-
-        $commande = Commande::findOrFail($id);
-        $commande->update($request->all());
-
-        return response()->json(['success' => 'Statut de la commande mis à jour.']);
-    }
-
-    public function destroy($id)
-    {
-        $commande = Commande::findOrFail($id);
-        $commande->delete();
-
-        return response()->json(['success' => 'Commande supprimée avec succès.']);
+        return (new MailMessage)
+                    ->greeting('Bonjour!')
+                    ->line('Un nouvel abonnement a été créé.')
+                    ->line('Fournisseur: ' . $this->abonnement->nom_fournisseur)
+                    ->line('Prix: €' . $this->abonnement->prix)
+                    ->line('Durée: ' . $this->abonnement->durée . ' mois')
+                    ->action('Voir le tableau de bord', url('/dashboard'))
+                    ->line('Merci d\'utiliser notre application!');
     }
 }

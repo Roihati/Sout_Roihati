@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('libele');
+            $table->string('productName');
+            $table->string('productCategory');
+            $table->string('productDescription');
+            $table->string('productPrice');
             $table->timestamps();
         });
     }

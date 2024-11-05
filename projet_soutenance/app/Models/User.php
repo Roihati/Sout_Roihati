@@ -11,9 +11,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 
+
+
+
 class User extends Authenticatable
 {
+
+  
     use CrudTrait;
+    use HasRoles;
     use HasFactory, Notifiable;
 
     /**
@@ -29,6 +35,7 @@ class User extends Authenticatable
         'password',
         'role_id'
     ];
+
 
     public function role(): BelongsTo
     {

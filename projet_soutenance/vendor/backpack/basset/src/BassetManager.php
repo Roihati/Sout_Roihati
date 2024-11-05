@@ -47,8 +47,6 @@ class BassetManager
         $this->unarchiver = new Unarchiver();
         $this->output = new FileOutput();
 
-        // initialize static view path methods
-        $this->initViewPaths();
     }
 
     /**

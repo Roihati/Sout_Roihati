@@ -35,7 +35,7 @@ class ProductController extends Controller
  $imagePath = null;
  if ($request->hasFile('image')) {
      $image = $request->file('image');
-     $imagePath = $image->store('images', 'public'); // Stocker dans le dossier public/images
+    # $imagePath = $image->store('images', 'public'); // Stocker dans le dossier public/images
  }
 
 
@@ -43,7 +43,7 @@ class ProductController extends Controller
   $imagePath = null;
   if ($request->hasFile('image')) {
       $image = $request->file('images');
-      $imagePath = $image->store('public/image');
+     # $imagePath = $image->store('public/image');
   }
     // Insération des données du formulaire dans la base de données
     $product = new Products();

@@ -1,18 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Contact_Mail;
+
 use Illuminate\Http\Request;
-use App\Mail\ContactMail;
+use App\Mail\ContactMail; 
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
-
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
-    
-    
+
+
     public function show()
-    { 
+    {
+        // Initialiser $details avec des valeurs par défaut
         $details = [
             'firstname' => '',
             'lastname' => '',
@@ -20,13 +22,21 @@ class ContactController extends Controller
             'phone' => '',
             'message' => '',
         ];
-        return view('emails.contact', compact('details'));
+
+        return view('contact', compact('details')); // Passer $details à la vue
     }
     public function submit(Request $request)
     {
-       
-       dd($request->all());
-       
+        // Validation des données du formulaire
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Récupération des données validées
         $details = [
             'firstname' => $request->input('firstname'),
             'lastname' => $request->input('lastname'),
@@ -35,40 +45,9 @@ class ContactController extends Controller
             'message' => $request->input('message'),
         ];
 
-        Mail::to('roihatibinti@gmail.com');
+        # Envoi de l'email
+        Mail::to('roihatibinti@gmail.com')->send(new ContactMail($details));
 
-        return back()->with('success', 'Email sent successfully!');
-
-
-    } 
-
-
-    /*
-    $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string|max:5000',
-
-            dd($request->all());
-            // Validation des données du formulaire
-            $request->validate([
-                'firstname' => 'required|string|max:255',
-                'lastname' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone' => 'nullable|string|max:20',
-                'message' => 'required|string|max:1000',
-            ]);
-    
-
-        $details = [
-            'firstname' => $request->name,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'message' => $request->message,
-        ];
-        Mail::to('roihatibinti@gmail.com')->send(new \App\Mail\ContactMail($details));
-        return back()->with('success', 'Thank you for your message. We will get back to you soon.');*/
+        return back()->with('success', 'Merci pour votre message. Nous vous répondrons bientôt.');
     }
-
-
+}

@@ -28,10 +28,11 @@ class CacheMap
 
         // Load map
         if (File::exists($this->filePath)) {
-            $this->map = json_decode(File::get($this->filePath), true);
+            $this->map = json_decode(File::get($this->filePath), true) ?? [];
+        } else {
+            $this->map = [];
         }
-    }
-
+    } 
     /**
      * Saves the cache map to the .basset file.
      *

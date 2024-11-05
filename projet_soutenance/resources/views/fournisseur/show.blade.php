@@ -7,18 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Show</title>
 </head>
 <body>
     <div class="mt-6 flex justify-start">
         <a href="{{ route('fournisseur.product') }}" class="flex items-center text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-md bg-white shadow-sm">
-            <i class="fas fa-plus mr-2"></i> Ajouter un produit
+            <i class="fas fa-plus mr-2"></i> retour
         </a>
-        <div style="text-align: center;">
-            <a href="{{ route('fournisseur.accueil') }}" class="flex items-center text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-md bg-white shadow-sm">
-                <i class="fas fa-home"></i> Accueil
-            </a>
-        </div>
+     
     </div>
     <br>
     <div class="col-md-12">

@@ -41,10 +41,11 @@
                  
                     <i class="fas fa-shopping-cart"></i> {{ __('SuiviCommandes') }}
                 </x-nav-link>
-                <x-nav-link href="{{ route('fournisseur.stock') }}" :active="request()->routeIs('fournisseur.stock')">
-                    <i class="fas fa-heart"></i> {{ __('Stocks') }}
-
-                </x-nav-link>
+            
+                    <x-nav-link href="{{ route('fournisseur.stock') }}" :active="request()->routeIs('fournisseur.stock')">
+                        <i class="fas fa-box"></i> {{ __('Stocks') }}
+                    </x-nav-link>
+         
                 
                 <x-nav-link href="{{ route('fournisseur.rapport') }}" :active="request()->routeIs('fournisseur.rapport')">
                     <i class="fas fa-file-export"></i> {{ __('Rapport') }}

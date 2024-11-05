@@ -52,13 +52,28 @@ class UserCrudController extends CrudController
                 'entity' => 'Role',
                 'attribute' => 'libele_role',
                 'model' => 'App\Models\Role',
+                'options'   => (function ($query) {
+         return $query->orderBy('name', 'ASC')->get();
+    }),
+    'allows_multiple' => true, // Permet la sélection multiple
+                
             ],
         ]);
-
-        // Supprimer explicitement la colonne categorie_id si elle est définie automatiquement
+        $this->crud->addField([
+            'name' => 'roles',
+            'type' => 'relationship', // Utilise le champ relationship à la place
+            'label' => 'Roles',
+            'entity' => 'roles',
+            'model' => "Spatie\Permission\Models\Role",
+            'attribute' => 'name',
+            'pivot' => true,
+        ]);
+        
+        
         //$this->crud->removeColumn('Role');
     }
-
+   
+    
     /**
      * Define what happens when the List operation is loaded.
      *

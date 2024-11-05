@@ -1,37 +1,38 @@
 <?php
 
+use  App\Http\Controllers\suppermarche\InventoryController;
+
+use App\Http\Controllers\client\ClientController;
+use App\Http\Controllers\client\Favorite;
+use App\Http\Controllers\client\FeedbackController;
+use App\Http\Controllers\client\Order;
+use App\Http\Controllers\Contact_Mail\ContactController;
+use App\Http\Controllers\fournisseur\AbonnementController;
+use App\Http\Controllers\fournisseur\CategoryController;
+use App\Http\Controllers\fournisseur\CommandeController;
+use App\Http\Controllers\fournisseur\FournisseurController;
+use App\Http\Controllers\fournisseur\ProductController;
+use App\Http\Controllers\fournisseur\ProductsController;
+use App\Http\Controllers\fournisseur\RapportController;
+use App\Http\Controllers\fournisseur\StockController;
+use App\Http\Controllers\fournisseur\SuiviCommandeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\suppermarche\AjouteFournisseurController;
+use App\Http\Controllers\suppermarche\AlerteController;
+use App\Http\Controllers\suppermarche\CommandesController;
+use App\Http\Controllers\suppermarche\Gestion_fournisseurController;
+use App\Http\Controllers\suppermarche\ImportantController;
+use App\Http\Controllers\suppermarche\InformationController;
+use App\Http\Controllers\suppermarche\PromotionController;
+use App\Http\Controllers\suppermarche\SuppermarcheController;
+use App\Http\Middleware\ClientMiddleware;
+use App\Http\Middleware\FournisseurMiddleware;
+use App\Http\Middleware\SupermarcheMiddleware;
+#use App\Http\Controllers\client\ProductController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\client\Order;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\client\Favorite;
-use App\Http\Middleware\ClientMiddleware;
-use App\Http\Middleware\SupermarcheMiddleware;
-use App\Http\Middleware\FournisseurMiddleware;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\client\ClientController;
-use App\Http\Controllers\client\FeedbackController;
-use App\Http\Controllers\fournisseur\ProductsController;
-use App\Http\Controllers\suppermarche\CommandesController;
-use App\Http\Controllers\fournisseur\CommandeController;
-use App\Http\Controllers\fournisseur\CategoryController;
-use App\Http\Controllers\fournisseur\StockController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Controllers\fournisseur\FournisseurController;
-use App\Http\Controllers\fournisseur\RapportController;
-use App\Http\Controllers\suppermarche\SuppermarcheController;
-use App\Http\Controllers\suppermarche\InformationController;
-use App\Http\Controllers\suppermarche\AlerteController;
-use App\Http\Controllers\suppermarche\ImportantController;
-use App\Http\Controllers\suppermarche\Gestion_fournisseurController;
-use App\Http\Controllers\fournisseur\ProductController;
-use App\Http\Controllers\suppermarche\AjouteFournisseurController;
-use App\Http\Controllers\Contact_Mail\ContactController;
-use App\Http\Controllers\fournisseur\SuiviCommandeController;
-#use App\Http\Controllers\client\ProductController;
-use  App\Http\Controllers\suppermarche\InventoryController;
-use App\Http\Controllers\suppermarche\PromotionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,7 @@ Route::get('/confirmation', function () {
     return view('fournisseur.confirmation');
 })->name('confirmation');
 
+
 Route::get('/Client', function () {
     return view('client.Home');
 })->middleware(['auth', 'verified'])->name('Home');
@@ -101,19 +103,27 @@ Route::middleware(['auth', FournisseurMiddleware::class])->group(function () {
     Route::delete('/fournisseur/{id}/delete', [ProductController::class, 'destroy'])->name('fournisseur.delete');
     
     #gestion de commandes 
-    #Route::get('/commandes', [CommandeController::class, 'index'])->name('fournisseur.commande');
+    Route::get('/commandes', [CommandeController::class, 'index'])->name('fournisseur.commande');
     
-#Route::post('/commandes', [CommandeController::class, 'store'])->name('fournisseur.commande.store');
+Route::post('/commandes', [CommandeController::class, 'store'])->name('fournisseur.commande.store');
 #Route::put('/commandes/{id}', [CommandeController::class, 'update'])->name('fournisseur.update');
-#Route::delete('/commandes/{id}', [CommandeController::class, 'destroy'])->name('fournisseur.destroy');
+
+Route::delete('/commandes/{id}', [CommandeController::class, 'destroy'])->name('fournisseur.destroy');
 
     Route::get("/fournisseur/suivicommande", [SuiviCommandeController::class, 'suivicommande'])->name("fournisseur.suivicommande");
     Route::get("/fournisseur/stock", [StockController::class, 'stock'])->name("fournisseur.stock");
     Route::get("/fournisseur/Rapport", [RapportController::class, 'rapport'])->name("fournisseur.rapport");
     
     Route::get("/fournisseur/category", [CategoryController::class, 'index'])->name("fournisseur.category");
-});
+    //abonnement du suppermarche auprés du fournisseur 
+  
 
+Route::get('/abonnements', [AbonnementController::class, 'index'])->name('fournisseur.abonnement');
+Route::post('/abonnements', [AbonnementController::class, 'store'])->name('fournisseur.abonnement.store');
+});
+Route::get('/dashboard', [AbonnementController::class, 'dashboard'])->name('fournisseur.dashboard');
+Route::put('/abonnements/{id}/activate', [AbonnementController::class, 'activate'])->name('fournissuer.dashboard.activate');
+Route::put('/abonnements/{id}/deactivate', [AbonnementController::class, 'deactivate'])->name('fournisseur.dashboard.deactivate');
 
 Route::middleware(['auth', SupermarcheMiddleware::class])->group(function () {
     Route::get("/suppermarche/supermaket", [SuppermarcheController::class, 'index'])->name("suppermarche.dashboard");

@@ -1,45 +1,46 @@
-<html>
+<?php echo $__env->make('fournisseur.deconnexion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<html lang="fr">
 <head>
-    <?php echo $__env->make('fournisseur.deconnexion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Commandes - Supermarché</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        [x-cloak] { display: none !important; }
-    </style>
 </head>
 <body class="bg-gray-100 font-sans">
-<div x-data="commandesApp()" class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-center text-blue-600">Gestion des Commandes</h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"">Gestion des Commandes</h1>
     
     <div class="bg-white shadow-md rounded-lg overflow-hidden mb-8">
         <div class="p-6">
             <h2 class="text-xl font-semibold mb-4">Nouvelle Commande</h2>
             <form method="POST" action="<?php echo e(route('fournisseur.commande')); ?>">
                 <?php echo csrf_field(); ?>
-             <?php echo method_field('Post'); ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="suppermarche" class="block text-sm font-medium text-gray-700 mb-2">Supermarché</label>
-                        <input type="text" id="user_id" name="user_id" x-model="nouvelleCommande.fournisseur" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" id="suppermarche" name="suppermarche" class="w-full px-3 py-2 border rounded-md" required>
                     </div>
                     <div>
                         <label for="produit" class="block text-sm font-medium text-gray-700 mb-2">Produit</label>
-                        <input type="text" id="produit-id" name="produit_id" x-model="nouvelleCommande.produit" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" id="produit" name="produit" class="w-full px-3 py-2 border rounded-md" required>
                     </div>
                     <div>
                         <label for="quantite" class="block text-sm font-medium text-gray-700 mb-2">Quantité</label>
-                        <input type="number" id="quantite" name="quantite" x-model="nouvelleCommande.quantite" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required min="1">
+                        <input type="number" id="quantite" name="quantite" class="w-full px-3 py-2 border rounded-md" required min="1">
                     </div>
                     <div>
-                        <label for="date_livraison" class="block text-sm font-medium text-gray-700 mb-2">Date de livraison prévue</label>
-                        <input type="date" id="date_livraison" name="date_livraison" x-model="nouvelleCommande.date_livraison" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <label for="date_livraison" class="block text-sm font-medium text-gray-700 mb-2">Date de livraison</label>
+                        <input type="date" id="date_livraison" name="date_livraison" class="w-full px-3 py-2 border rounded-md" required>
                     </div>
                 </div>
-                <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">Ajouter la commande</button>
+
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <input type="status" id="status" name="status" class="w-full px-3 py-2 border rounded-md" required>
+                </div>
+            </div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Ajouter la commande</button>
             </form>
         </div>
     </div>
@@ -47,128 +48,58 @@
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6">
             <h2 class="text-xl font-semibold mb-4">Liste des Commandes</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full table-auto">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">Supermarchés</th>
-                            <th class="py-3 px-6 text-left">Produit</th>
-                            <th class="py-3 px-6 text-center">Quantité</th>
-                            <th class="py-3 px-6 text-center">Date de livraison</th>
-                            <th class="py-3 px-6 text-center">Statut</th>
-                            <th class="py-3 px-6 text-center">Actions</th>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm">
+                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Supermarché</th>
+                        <th class="py-3 px-6 text-left">Produit</th>
+                      
+                        <th class="py-3 px-6 text-center">Quantité</th>
+                        <th class="py-3 px-6 text-left">Status</th>
+                        <th class="py-3 px-6 text-center">Date de livraison</th>
+                        <th class="py-3 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm">
+                    <?php $__currentLoopData = $commandes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commande): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                               
+                            <td class="py-3 px-6 text-left"><?php echo e($commande->id); ?></td>
+                            <td class="py-3 px-6 text-left"><?php echo e($commande->suppermarche); ?></td>
+                            <td class="py-3 px-6 text-left"><?php echo e($commande->produit); ?></td>
+                            <td class="py-3 px-6 text-center"><?php echo e($commande->quantite); ?></td>
+                            <td class="py-3 px-6 text-left"><?php echo e($commande->status); ?></td>
+                            <td class="py-3 px-6 text-center"><?php echo e($commande->date_livraison); ?></td>
+                            <td class="py-3 px-6 text-center">
+
+                                <form method="POST" action="<?php echo e(route('fournisseur.destroy', $commande->id)); ?>" style="display:inline;" onsubmit="return confirmDelete();">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                    </button>
+                                </form>
+                                <form method="POST" action="<?php echo e(route('fournisseur.destroy', $commande->id)); ?>" style="display:inline;" onsubmit="return confirmDelete();">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        <template x-for="(commande, index) in commandes" :key="index">
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left" x-text="commande.fournisseur"></td>
-                                <td class="py-3 px-6 text-left" x-text="commande.produit"></td>
-                                <td class="py-3 px-6 text-center" x-text="commande.quantite"></td>
-                                <td class="py-3 px-6 text-center" x-text="commande.date_livraison"></td>
-                                <td class="py-3 px-6 text-center" x-text="commande.statut"></td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <button @click="updateStatut(index)" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>
-                                        <button @click="supprimerCommande(index)" class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<?php echo $__env->make('fournisseur.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+</body>
 
 <script>
-    function commandesApp() {
-        return {
-            nouvelleCommande: {
-                suppermarche: '',
-                produit: '',
-                quantite: 1,
-                date_livraison: '',
-                statut: 'En attente'
-            },
-            commandes: [],
-            init() {
-                this.fetchCommandes();
-            },
-            fetchCommandes() {
-                // Fetch existing commandes from the server
-                fetch('/commandes')
-                    .then(response => response.json())
-                    .then(data => {
-                        this.commandes = data;
-                    });
-            },
-            ajouterCommande() {
-                fetch('/commandes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    },
-                    body: JSON.stringify(this.nouvelleCommande)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.commandes.push({ ...this.nouvelleCommande });
-                        this.nouvelleCommande = { suppermarche: '', produit: '', quantite: 1, date_livraison: '', statut: 'En attente' };
-                    }
-                });
-            },
-            supprimerCommande(index) {
-                const commande = this.commandes[index];
-                fetch(`/commandes/${commande.id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.commandes.splice(index, 1);
-                    }
-                });
-            },
-            updateStatut(index) {
-                const commande = this.commandes[index];
-                const statuts = ['En attente', 'En cours', 'Livrée'];
-                const currentIndex = statuts.indexOf(commande.statut);
-                commande.statut = statuts[(currentIndex + 1) % statuts.length];
-
-                fetch(`/commandes/${commande.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    },
-                    body: JSON.stringify({ statut: commande.statut })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) {
-                        alert('Erreur lors de la mise à jour du statut.');
-                    }
-                });
-            }
-        }
+    function confirmDelete() {
+        return confirm("Êtes-vous sûr de vouloir supprimer cette commande ?");
     }
-
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('commandesApp', commandesApp);
-    });
 </script>
-</body>
 </html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/commande.blade.php ENDPATH**/ ?>

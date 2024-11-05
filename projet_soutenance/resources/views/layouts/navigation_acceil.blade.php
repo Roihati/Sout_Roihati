@@ -11,7 +11,10 @@
                     </a>
                 </div> 
                 {{-- mstyle  --}}
+              
+                
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
                 
                 <!-- Navigation Links -->
@@ -54,7 +57,21 @@
                 </x-nav-link>
                 </div>
             </div>
-
+            <div > 
+                 <style >
+                .text-gray-700 {
+                        transition: color 0.3s ease;
+                    }
+                    
+                    .text-gray-700:hover {
+                        color: #1f2937; /* Couleur plus foncée au survol */
+                    }
+                    </style>
+            <x-nav-link href="#" :active="request()->routeIs('#')" class="text-gray-700 hover:text-gray-900 flex items-center space-x-2">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <span>{{ __('Search') }}</span>
+            </x-nav-link>
+            </div>
 
            <!-- Hamburger -->
            <div class="-me-2 flex items-center sm:hidden">

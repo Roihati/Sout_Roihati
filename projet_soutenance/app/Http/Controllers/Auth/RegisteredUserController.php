@@ -34,23 +34,24 @@ class RegisteredUserController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'integer', 'in:1,2,3'], // Validez le champ role_id
+            'role_id' => ['required', 'integer', 'in:' . implode(',', array_map(fn($role) => $role->value, RoleType::cases()))], // Validation des rôles
         ]);
-
+    
         $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id, // Enregistrement du rôle
         ]);
-
+        $user->assignRole('client'); //  pour un client
+        $user->assignRole('admin'); //  pour un admin
+        $user->assignRole('fournisseur'); // pour un fournisseur
+        $user->assignRole('supermarche'); //  pour un supermarché
+        
         event(new Registered($user));
-
-       # Auth::login($user);
-
-        return redirect(route('login', absolute: false));
+    
+        return redirect(route('login'));
     }
 }

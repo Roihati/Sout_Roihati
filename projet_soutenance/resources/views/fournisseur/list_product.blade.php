@@ -4,12 +4,6 @@
 <br> 
 
 @section('title')
-<div class="mt-6 flex justify-start">
-    <a href="{{ route('fournisseur.product') }}" class="flex items-center text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-md bg-white shadow-sm">
-        <i class="fas fa-plus mr-2"></i> Ajouter un produit
-    </a>
-</div>
-
 <div class="content">
     <div class="container">
         <div class="row justify-content-center">

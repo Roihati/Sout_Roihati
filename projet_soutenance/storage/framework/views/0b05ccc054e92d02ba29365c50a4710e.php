@@ -9,7 +9,7 @@
 
     <style>
         body {
-            background-image: url('https://replicate.delivery/yhqm/zeeNvjpNt0kidU4ksDespU4AxuObtFLQjppq3yNFsQl6jhgmA/out-0.webp');
+            background-image: url('https://img.passeportsante.net/1200x675/2021-05-03/i101971-banane-nu.webp');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -91,8 +91,6 @@
          </div>
         </div>
       </form>
-      
-    <?php echo $__env->make('fournisseur.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-   
+    
 </body>
 </html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/product.blade.php ENDPATH**/ ?>

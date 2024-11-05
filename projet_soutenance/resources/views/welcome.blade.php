@@ -7,7 +7,7 @@
 @endsection
 
 @section('tittle')
-<title>Page home</title>
+<title >Page home</title>
 @endsection
 
 @section('style')

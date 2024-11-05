@@ -10,8 +10,9 @@ class Commandes extends Model
     use HasFactory;
     protected $fillable = [
         
-        'user_id',
-        'produit_id',
+        'suppermarche',
+        'status',
+        'produit',
         'date_livraison',
         'quantite',
         

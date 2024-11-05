@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-           # $table->string('name');
+            $table->string('name')->unique(); // Champ requis
+            $table->string('guard_name'); // Champ requis
             $table->string("libele_role");
             $table->timestamps();
         });
@@ -22,8 +23,13 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+
+
+     public function down()
+     {
+        
         Schema::dropIfExists('roles');
-    }
+     }
+   
+    
 };
