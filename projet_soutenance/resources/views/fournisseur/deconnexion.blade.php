@@ -37,6 +37,7 @@
                  
                     <i class="fas fa-shopping-cart"></i> {{ __('Commandes') }}
                 </x-nav-link>
+          
                 <x-nav-link href="{{ route('fournisseur.suivicommande') }}" :active="request()->routeIs('fournisseur.suivicommande')">
                  
                     <i class="fas fa-shopping-cart"></i> {{ __('SuiviCommandes') }}

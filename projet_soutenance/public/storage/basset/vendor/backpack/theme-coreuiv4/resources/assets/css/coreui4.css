@@ -100,6 +100,20 @@ a:hover {
     background-color: rgba(50, 31, 219, 0.5) !important;
 }
 
+.sidebar-brand {
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 var(--cui-sidebar-brand-height);
+}
+
+.sidebar {
+    --cui-sidebar-brand-height: 4rem;
+}
+
+.header > .container-fluid, .header > .container-sm, .header > .container-md, .header > .container-lg, .header > .container-xl, .header > .container-xxl, .sidebar-header {
+    min-height: calc(4rem + 1px);
+}
+
 /* Select 2 + Select 2 multiple */
 .select2-container--bootstrap .select2-results__option--highlighted[aria-selected]{
     background-color: rgba(50, 31, 219, 0.5) !important;
@@ -223,6 +237,14 @@ a.btn:hover, li.paginate_button a {
 #crudTable_wrapper table.dataTable:not(.has-hidden-columns) tr td:first-child {
     padding-top: 1.25rem !important;
     padding-bottom: 1.25rem !important;
+}
+
+#crudTable_wrapper #crudTable tr th:first-child, 
+#crudTable_wrapper #crudTable tr td:first-child, 
+#crudTable_wrapper table.dataTable tr th:first-child, 
+#crudTable_wrapper table.dataTable tr td:first-child
+{
+    display: flex;
 }
 
 #crudTable_wrapper #crudTable[data-has-bulk-actions="0"] .details-control,

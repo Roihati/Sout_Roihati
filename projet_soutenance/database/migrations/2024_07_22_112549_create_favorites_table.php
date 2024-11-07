@@ -16,10 +16,10 @@ return new class extends Migration
             $table->timestamps();
 
             // Clés étrangères et index
-           $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-         $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade'); // ou 'items' selon votre cas d'utilisation
+           #$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         #$table->foreign('product_id')->references('id')->on('products')->onDelete('cascade'); // ou 'items' selon votre cas d'utilisation
 
-            $table->unique(['user_id', 'product_id']); // Unicité pour éviter les doublons
+            #$table->unique(['user_id', 'product_id']); // Unicité pour éviter les doublons
         });
     }
 

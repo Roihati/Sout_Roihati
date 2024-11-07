@@ -10,12 +10,6 @@
     <title>Show</title>
 </head>
 <body>
-    <div class="mt-6 flex justify-start">
-        <a href="<?php echo e(route('fournisseur.product')); ?>" class="flex items-center text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-md bg-white shadow-sm">
-            <i class="fas fa-plus mr-2"></i> retour
-        </a>
-     
-    </div>
     <br>
     <div class="col-md-12">
     <div class="content">
@@ -50,7 +44,9 @@
                                             <td><?php echo e($product->category); ?></td>
                                             <td>
                                                 <?php if($product->image): ?>
-                                                    <img src="<?php echo e(asset('storage/' . $product->image)); ?>" alt="Image du produit" width="100">
+
+                                                
+                                          <img src="<?php echo e(asset('storage/' . $product->image)); ?>" alt="Image du produit" width="100">
                                                 <?php else: ?>
                                                     Aucune image
                                                 <?php endif; ?>

@@ -10,9 +10,11 @@ class Role extends Model
 {
     use CrudTrait;
     use HasFactory;
+    
     protected $fillable = [
         
-        'libele_role',
+        'name',
+        'guard_name',
     ];
 
     public function user()

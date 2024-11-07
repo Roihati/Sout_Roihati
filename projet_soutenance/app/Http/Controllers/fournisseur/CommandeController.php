@@ -17,7 +17,7 @@ class CommandeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'suppermarche' => 'required|string|max:255',
+            'id_suppermarche' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'produit' => 'required|string|max:255',
             'quantite' => 'required|integer|min:1',

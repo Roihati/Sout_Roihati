@@ -80,14 +80,7 @@
                                         <i class="fas fa-trash-alt"></i> Supprimer
                                     </button>
                                 </form>
-                                <form method="POST" action="{{ route('fournisseur.destroy', $commande->id) }}" style="display:inline;" onsubmit="return confirmDelete();">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-700">
-                                        <i class="fas fa-trash-alt"></i> Supprimer
-                                    </button>
-                                </form>
-                            </td>
+                                
                         </tr>
                     @endforeach
                 </tbody>
@@ -102,4 +95,3 @@
         return confirm("Êtes-vous sûr de vouloir supprimer cette commande ?");
     }
 </script>
-</html>

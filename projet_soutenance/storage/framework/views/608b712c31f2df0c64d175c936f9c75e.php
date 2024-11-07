@@ -80,14 +80,7 @@
                                         <i class="fas fa-trash-alt"></i> Supprimer
                                     </button>
                                 </form>
-                                <form method="POST" action="<?php echo e(route('fournisseur.destroy', $commande->id)); ?>" style="display:inline;" onsubmit="return confirmDelete();">
-                                    <?php echo csrf_field(); ?>
-                                    <?php echo method_field('DELETE'); ?>
-                                    <button type="submit" class="text-red-500 hover:text-red-700">
-                                        <i class="fas fa-trash-alt"></i> Supprimer
-                                    </button>
-                                </form>
-                            </td>
+                                
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
@@ -101,5 +94,4 @@
     function confirmDelete() {
         return confirm("Êtes-vous sûr de vouloir supprimer cette commande ?");
     }
-</script>
-</html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/commande.blade.php ENDPATH**/ ?>
+</script><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/commande.blade.php ENDPATH**/ ?>

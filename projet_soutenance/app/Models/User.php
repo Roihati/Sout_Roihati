@@ -17,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
 
-  
+    use HasRoles;
     use CrudTrait;
     use HasRoles;
     use HasFactory, Notifiable;
@@ -36,7 +36,13 @@ class User extends Authenticatable
         'role_id'
     ];
 
-
+  
+       
+    
+        public function roles() {
+            return $this->belongsToMany(Role::class);
+        }
+    
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
@@ -77,6 +83,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Products::class, 'favorites');
     }
+
+
+    // app/Models/User.php
+
+public function getRedirectRoute()
+{
+    return match ($this->role_id) {
+        1 => route('client.Home'),
+        2 => route('fournisseur.accueil'),
+        3 => route('suppermarche.dashboard'),
+        4 => route('backpack::base.dashboard'),
+        default => route('default.dashboard'), // Remplacez par votre route par défaut
+    };
+}
 }
 
 

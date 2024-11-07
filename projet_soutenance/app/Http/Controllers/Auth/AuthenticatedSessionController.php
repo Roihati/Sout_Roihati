@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -18,29 +17,39 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
+
     /**
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Authentifier l'utilisateur
         $request->authenticate();
+        
+        // Régénérer la session
         $request->session()->regenerate();
+
+        // Récupérer l'utilisateur authentifié
         $user = Auth::user();
-        if( $user &&  $user->role_id==3){
-            return redirect()->intended(route('fournisseur.accueil', absolute: false));
 
-        }else if($user && $user->role_id==2){
-            return redirect()->intended(route('suppermarche.dashboard', absolute: false));
+        // Redirection en fonction du rôle de l'utilisateur
+        if ($user) {
+            switch ($user->role_id) {
+                case 1:
+                    return redirect()->intended(route('client.Home'));
+                case 2:
+                    return redirect()->intended(route('fournisseur.accueil'));
+                case 3:
+                    return redirect()->intended(route('suppermarche.dashboard'));
+                case 4:
+                    return redirect(backpack_url('/admin/dashboard'));
+                default:
+                    return redirect('/');
+            }
+        }
 
-       }else if($user && $user->role_id==1){
-        return redirect()->intended(route('client.Home', absolute: false));
-
-       }else if($user && $user->role_id==4){
-        return backpack_url('/admin/dashboard');
-       }else{
-        redirect('/');
-       }
-
+        // Si l'utilisateur n'est pas authentifié, rediriger vers la page d'accueil
+        return redirect('/');
     }
 
     /**

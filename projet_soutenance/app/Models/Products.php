@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Commandes ;
 
 class Products extends Model
 {
@@ -20,6 +21,10 @@ class Products extends Model
         'price',
         'stock',
     ];
+    public function commandes()
+    {
+        return $this->hasMany(Commandes::class);
+    }
 
     public function favoritedBy()
     {

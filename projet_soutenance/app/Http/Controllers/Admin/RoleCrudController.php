@@ -70,10 +70,10 @@ class RoleCrudController extends CrudController
         if ($existingRole) {
             // Le rôle existe déjà, vous pouvez soit le mettre à jour, soit ignorer l'insertion
             Role::firstOrCreate(
-                ['name' => 'NomDuRole', 'guard_name' => 'web'],
-                // Les valeurs à insérer si le rôle n'existe pas
-                []
-            );
+    ['name' => 'NomDuRole', 'guard_name' => 'web'],
+    // Les valeurs à insérer si le rôle n'existe pas
+    []
+);
         } else {
             // Insérez le nouveau rôle
             $role = new Role();

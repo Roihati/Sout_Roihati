@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
          $table->id();
         $table->string('name')->nuillable();
+        #$table->string('phone')->nullable()->change();
         $table->string('phone')->nuillable();
         $table->string('address')->nuillable();
         $table->string('email')->unique();
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
-       $table->foreignId('role_id')->nullable(); // Ajoutez nullable() ou une valeur par défaut
-       $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
-        $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+        
+
+       $table->unsignedBigInteger('role_id')->default(1); // Définir un `role_id` par défaut, remplacez $defaultRoleId par l'ID du rôle "client
+       #$table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
+       # $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         $table->rememberToken();
         $table->timestamps();
     

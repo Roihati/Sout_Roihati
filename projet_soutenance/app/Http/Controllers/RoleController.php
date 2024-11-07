@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -33,10 +34,18 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request): RedirectResponse
+{
+    // Authentifier l'utilisateur
+    $request->authenticate();
+
+    // Régénérer la session
+    $request->session()->regenerate();
+    
+
+    // Rediriger l'utilisateur après la connexion
+    return redirect()->intended('dashboard'); // Assurez-vous que cela retourne bien un RedirectResponse
+}
 
     /**
      * Display the specified resource.

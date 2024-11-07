@@ -1,8 +1,10 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Enums\RoleType;
+use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,26 +34,31 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'integer', 'in:' . implode(',', array_map(fn($role) => $role->value, RoleType::cases()))], // Validation des rôles
+            'role_id' => ['nullable', 'integer', 'in:' . implode(',', array_map(fn($role) => $role->value, RoleType::cases()))],
         ]);
-    
+
+        // Définir un `role_id` par défaut si aucun n'est fourni
+        $roleId = $request->role_id ?? Role::where('name', 'client')->first()->id;
+
+        // Créer l'utilisateur
         $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id, // Enregistrement du rôle
+            'role_id' => $roleId,
         ]);
-        $user->assignRole('client'); //  pour un client
-        $user->assignRole('admin'); //  pour un admin
-        $user->assignRole('fournisseur'); // pour un fournisseur
-        $user->assignRole('supermarche'); //  pour un supermarché
-        
+
+        // Assigner le rôle à l'utilisateur
+        if ($role = Role::find($roleId)) {
+            $user->assignRole($role->name);
+        }
+
         event(new Registered($user));
-    
-        return redirect(route('login'));
+
+        return redirect()->route('login')->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
     }
 }

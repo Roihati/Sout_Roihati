@@ -1,7 +1,8 @@
 
 <?php echo $__env->make('fournisseur.deconnexion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <html>
-  <head><title>Gestion des Stocks - Interface Fournisseur</title>
+  <head><title>Gestion des Stocks </title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +20,7 @@
     <body class="bg-gray-100 min-h-screen">
       <nav class="bg-blue-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
-          <h1 class="text-2xl font-bold">StockManager Pro</h1>
+          <h1 class="text-2xl font-bold">StockManager</h1>
           <div>
             <button id="notificationBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,19 +64,19 @@
             <h2 class="text-xl font-semibold mb-4">Ajouter un produit</h2>
             <form id="addProductForm">
               <div class="mb-4">
-                <label for="productName" class="block text-gray-700 text-sm font-bold mb-2">Nom du produit</label>
-                <input type="text" id="productName" name="productName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <label for="product_name" class="block text-gray-700 text-sm font-bold mb-2">Nom du produit</label>
+                <input type="text" id="product_name" name="product_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
               </div>
               <div class="mb-4">
-                <label for="currentStock" class="block text-gray-700 text-sm font-bold mb-2">Stock actuel</label>
-                <input type="number" id="currentStock" name="currentStock" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <label for="current_stock" class="block text-gray-700 text-sm font-bold mb-2">Stock actuel</label>
+                <input type="number" id="current_stock" name="current_stock" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
               </div>
               <div class="mb-6">
-                <label for="alertThreshold" class="block text-gray-700 text-sm font-bold mb-2">Seuil d'alerte</label>
-                <input type="number" id="alertThreshold" name="alertThreshold" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <label for="alert_threshold" class="block text-gray-700 text-sm font-bold mb-2">Seuil d'alerte</label>
+                <input type="number" id="alert_threshold" name="alert_threshold" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
               </div>
               <div class="flex items-center justify-between">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <button type="submit" name="submit"   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                   Ajouter le produit
                 </button>
               </div>
@@ -117,72 +118,71 @@
           </div>
         </div>
       </div>
-    <?php echo $__env->make('fournisseur.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       <script>
         // Données factices pour la démonstration
         const products = [
-          { name: "Produit A", currentStock: 50, alertThreshold: 20 },
-          { name: "Produit B", currentStock: 15, alertThreshold: 25 },
-          { name: "Produit C", currentStock: 100, alertThreshold: 30 },
+            { name: "Banane", current_stock: 50, alert_threshold: 20 },
+            { name: "carotte", current_stock: 15, alert_threshold: 25 },
+            { name: "huile", current_stock: 100, alert_threshold: 30 },
         ];
     
         // Fonction pour mettre à jour la liste des produits
         function updateProductList() {
-          const productList = document.getElementById('productList');
-          productList.innerHTML = '';
-          products.forEach(product => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td class="px-6 py-4">${product.name}</td>
-              <td class="px-6 py-4">${product.currentStock}</td>
-              <td class="px-6 py-4">${product.alertThreshold}</td>
-            `;
-            if (product.currentStock < product.alertThreshold) {
-              row.classList.add('bg-red-100');
-            }
-            productList.appendChild(row);
-          });
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4">${product.name}</td>
+                    <td class="px-6 py-4">${product.current_stock}</td>
+                    <td class="px-6 py-4">${product.alert_threshold}</td>
+                `;
+                if (product.current_stock < product.alert_threshold) {
+                    row.classList.add('bg-red-100');
+                }
+                productList.appendChild(row);
+            });
         }
     
         // Fonction pour mettre à jour le graphique
         function updateChart() {
-          const ctx = document.getElementById('overviewChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: products.map(p => p.name),
-              datasets: [{
-                label: 'Stock actuel',
-                data: products.map(p => p.currentStock),
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgb(54, 162, 235)',
-                borderWidth: 1
-              }, {
-                label: 'Seuil d\'alerte',
-                data: products.map(p => p.alertThreshold),
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgb(255, 99, 132)',
-                borderWidth: 1
-              }]
-            },
-            options: {
-              scales: {
-                y: {
-                  beginAtZero: true
+            const ctx = document.getElementById('overviewChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: products.map(p => p.name),
+                    datasets: [{
+                        label: 'Stock actuel',
+                        data: products.map(p => p.currentStock),
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Seuil d\'alerte',
+                        data: products.map(p => p.alertThreshold),
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-              }
-            }
-          });
+            });
         }
     
         // Fonction pour vérifier les alertes
         function checkAlerts() {
-          const lowStockProducts = products.filter(p => p.currentStock < p.alertThreshold);
-          if (lowStockProducts.length > 0) {
-            document.getElementById('notificationBtn').classList.add('pulse-animation');
-          } else {
-            document.getElementById('notificationBtn').classList.remove('pulse-animation');
-          }
+            const lowStockProducts = products.filter(p => p.current_stock < p.alert_threshold);
+            if (lowStockProducts.length > 0) {
+                document.getElementById('notificationBtn').classList.add('pulse-animation');
+            } else {
+                document.getElementById('notificationBtn').classList.remove('pulse-animation');
+            }
         }
     
         // Initialisation
@@ -192,17 +192,34 @@
     
         // Gestion du formulaire d'ajout de produit
         document.getElementById('addProductForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          const newProduct = {
-            name: document.getElementById('productName').value,
-            currentStock: parseInt(document.getElementById('currentStock').value),
-            alertThreshold: parseInt(document.getElementById('alertThreshold').value)
-          };
-          products.push(newProduct);
-          updateProductList();
-          updateChart();
-          checkAlerts();
-          this.reset();
+            e.preventDefault();
+            
+            const newProduct = {
+                name: document.getElementById('product_name').value,
+                current_stock: parseInt(document.getElementById('current_stock').value),
+                alert_threshold: parseInt(document.getElementById('alert_threshold').value)
+            };
+    
+            // Envoi des données au serveur
+            fetch('/stocks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(newProduct)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    products.push(newProduct); // Ajoute le produit à la liste locale
+                    updateProductList();
+                    updateChart();
+                    checkAlerts();
+                    this.reset(); // Réinitialise le formulaire
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
         });
     
         // Gestion des notifications
@@ -212,26 +229,27 @@
         const notificationContent = document.getElementById('notificationContent');
     
         notificationBtn.addEventListener('click', function() {
-          const lowStockProducts = products.filter(p => p.currentStock < p.alertThreshold);
-          if (lowStockProducts.length > 0) {
-            notificationContent.innerHTML = lowStockProducts.map(p => 
-              `<p class="mb-2">Le stock de <strong>${p.name}</strong> est bas (${p.currentStock}). Seuil d'alerte : ${p.alertThreshold}.</p>`
-            ).join('');
-          } else {
-            notificationContent.innerHTML = "<p>Aucune alerte de stock bas pour le moment.</p>";
-          }
-          notificationModal.classList.remove('hidden');
+            const lowStockProducts = products.filter(p => p.current_stock < p.alert_threshold);
+            if (lowStockProducts.length > 0) {
+                notificationContent.innerHTML = lowStockProducts.map(p => 
+                    `<p class="mb-2">Le stock de <strong>${p.name}</strong> est bas (${p.currentStock}). Seuil d'alerte : ${p.alertThreshold}.</p>`
+                ).join('');
+            } else {
+                notificationContent.innerHTML = "<p>Aucune alerte de stock bas pour le moment.</p>";
+            }
+            notificationModal.classList.remove('hidden');
         });
     
         closeModalBtn.addEventListener('click', function() {
-          notificationModal.classList.add('hidden');
+            notificationModal.classList.add('hidden');
         });
     
         // Fermer le modal en cliquant en dehors
         window.addEventListener('click', function(event) {
-          if (event.target === notificationModal) {
-            notificationModal.classList.add('hidden');
-          }
+            if (event.target === notificationModal) {
+                notificationModal.classList.add('hidden');
+            }
         });
-      </script>
+    </script>
+    
     </body></html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/stock.blade.php ENDPATH**/ ?>

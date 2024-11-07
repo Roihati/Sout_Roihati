@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <?php echo $__env->make('fournisseur.deconnexion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <br>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +30,11 @@
                     <td class="border border-gray-300 p-4"><?php echo e($abonnement->created_at->format('d/m/Y')); ?></td>
                     <td class="border border-gray-300 p-4 flex space-x-2"> <!-- Flex pour aligner les boutons -->
                         <!-- Bouton Activer -->
+                        <form action="<?php echo e(route('fournisseur.dashboard.activate', $abonnement->id)); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PUT'); ?>
+                            <button type="submit" class="btn btn-success">Activer</button>
+                        </form>
                         <form action="<?php echo e(route('fournisseur.dashboard.activate', $abonnement->id)); ?>" method="POST">
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('PUT'); ?>

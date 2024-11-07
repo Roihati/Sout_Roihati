@@ -1,4 +1,5 @@
-<html><head>
+<html>
+<head>
     <?php echo $__env->make('fournisseur.deconnexion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,73 +25,80 @@
 </head>
 
 <body class="bg-gray-100">
-    <div x-data="addProduct()" class="container mx-auto px-4 py-8">
+    <div x-data="{ product: { nom: '', description: '', price: '', stock: '', category: '' }, imagePreview: '' }" class="container mx-auto px-4 py-8">
         <div class="content-wrapper">
             <h1 class="text-3xl font-bold mb-8">Ajouter un Produit</h1>
 
             <form method="POST" action="<?php echo e(route('fournisseur.product.store')); ?>" enctype="multipart/form-data" class="space-y-6">
-                <?php echo method_field('post'); ?>
                 <?php echo csrf_field(); ?>
-              
-                <form method="POST" class="space-y-6">
-                    <div>
-                        <label for="nom" class="block text-sm font-medium text-gray-700">Nom du produit</label>
-                        <input type="text" id="name" name ="name"  x-model="product.nom" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    
-                    <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea id="description" name ="description" x-model="product.description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                    </div>
-                    
-                    <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700">Prix (€)</label>
-                        <input type="number" id="price"  name="price" x-model="product.price" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-
-                    </div>
-                    
-                    <div>
-                        <label for="stock" class="block text-sm font-medium text-gray-700">Stock initial</label>
-                        <input type="number" id="stock" name="stock" x-model="product.stock" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    
-                    <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
-
-                        <select id="category" name="category" x-model="product.category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Sélectionner une catégorie</option>
-                            <option value="fruits">Fruits</option>
-                            <option value="legumes">Légumes</option>
-                            <option value="viandes">Viandes</option>
-                            <option value="produits_laitiers">Produits laitiers</option>
-                            <option value="epicerie">Épicerie</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label for="image" class="block text-sm font-medium text-gray-700">Image du produit</label>
-                        <input type="file" id="image" name="image" change="handleImageUpload" accept="image/*" class="mt-1 block w-full">
-                    </div>
-                    
-                    <div x-show="imagePreview" type ="file " class="mt-4">
-                        <img src="" name ="" alt="Aperçu de l'image du produit" class="max-w-xs rounded-lg shadow-md">
-                    </div>
-                    
-                    <div>
-                        <button type="submit"  name="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Ajouter le produit
-                        </button>
-                    </div>
-                </form>
-                
-                <div class="mt-8">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-800">
-                        <i class="fas fa-arrow-left mr-2"></i>Retour au tableau de bord
-                    </a>
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Nom du produit</label>
+                    <input type="text" id="name" name ="name" x-model="product.nom" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 </div>
-         </div>
+                
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" name ="description" x-model="product.description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                </div>
+                
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700">Prix (€)</label>
+                    <input type="number" id="price" name="price" x-model="product.price" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
+                
+                <div>
+                    <label for="stock" class="block text-sm font-medium text-gray-700">Stock initial</label>
+                    <input type="number" id="stock" name="stock" x-model="product.stock" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
+                
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
+                    <select id="category" name="category" x-model="product.category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option value="">Sélectionner une catégorie</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="legumes">Légumes</option>
+                        <option value="viandes">Viandes</option>
+                        <option value="produits_laitiers">Produits laitiers</option>
+                        <option value="epicerie">Épicerie</option>
+                    </select>
+                </div>
+
+                <!-- Champ d'image avec aperçu -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Image du produit</label>
+                    <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif" @change="
+                        const file = $event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => imagePreview = e.target.result;
+                            reader.readAsDataURL(file);
+                        }
+                    " class="mt-1 block w-full">
+                </div>
+
+                <!-- Aperçu de l'image -->
+                <div x-show="imagePreview" class="mt-4">
+                    <img :src="imagePreview" alt="" class="max-w-xs rounded-lg shadow-md">
+                </div>
+
+                <!-- Bouton de soumission -->
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Ajouter le produit
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Lien de retour -->
+            <div class="mt-8">
+                <a href="#" class="text-indigo-600 hover:text-indigo-800">
+                    <i class="fas fa-arrow-left mr-2"></i>Retour au tableau de bord
+                </a>
+            </div>
+
         </div>
-      </form>
-    
+    </div>
+
 </body>
 </html><?php /**PATH C:\wamp64\www\Sout_Roihati\projet_soutenance\resources\views/fournisseur/product.blade.php ENDPATH**/ ?>

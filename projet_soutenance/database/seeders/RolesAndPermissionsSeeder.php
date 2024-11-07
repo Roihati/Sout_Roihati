@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\models\user;
+use App\Models\User;
+
 class RolesAndPermissionsSeeder extends Seeder
 {
     /**
@@ -15,80 +14,57 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-    
-         // Reset des permissions et rôles
-         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // Réinitialiser les permissions et rôles en cache
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-         // Création des permissions
-         Permission::create(['name' => 'manage users']);
-         Permission::create(['name' => 'manage roles']);
-         Permission::create(['name' => 'manage permissions']);
-         Permission::create(['name' => 'manage products']);
-         Permission::create(['name' => 'manage orders']);
- 
-         // Création des rôles et assignation des permissions
-         $admin = Role::create(['name' => 'admin']);
-         $admin->givePermissionTo(['manage users', 'manage roles', 'manage permissions', 'manage products', 'manage orders']);
- 
-         $fournisseur = Role::create(['name' => 'fournisseur']);
-         $fournisseur->givePermissionTo('manage products');
- 
-         $supermarche = Role::create(['name' => 'supermarche']);
-         $supermarche->givePermissionTo('manage orders');
+        // Créer les permissions
+        $permissions = [
+            'writer',
+            'create product',
+            'edit product',
+            'delete product',
+            'manage users',
+            'manage roles',
+            'manage permissions',
+            'manage products',
+            'manage orders',
+            'manage stock'
+        ];
 
-    Role::firstOrCreate(['name' => 'client', 'guard_name' => 'web']);
-    Role::firstOrCreate(['name' => 'fournisseur', 'guard_name' => 'web']);
-    Role::firstOrCreate(['name' => 'supermarche', 'guard_name' => 'web']);
-    Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
 
+        // Créer les rôles et leur attribuer des permissions
+        $roleAdmin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $roleAdmin->givePermissionTo(['manage users', 'manage roles', 'manage permissions', 'manage products', 'manage orders', 'manage stock']);
 
-   // Créer un rôle
-$role = Role::create(['name' => 'admin']);
+        $roleUser = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
+        $roleUser->givePermissionTo('edit product');
 
-// Créer une permission
-$permission = Permission::create(['name' => 'manage users']);
+        $roleFournisseur = Role::firstOrCreate(['name' => 'fournisseur', 'guard_name' => 'web']);
+        $roleFournisseur->givePermissionTo('manage products');
 
-// Assigner une permission à un rôle
-$role->givePermissionTo('manage users');
+        $roleSupermarche = Role::firstOrCreate(['name' => 'supermarche', 'guard_name' => 'web']);
+        $roleSupermarche->givePermissionTo('manage orders');
 
-// Assigner un rôle à un utilisateur
-$user = User::find(1);
-$user->assignRole('client'); 
-// Créer un rôle
-$role = Role::create(['name' => 'admin']);
+        $roleClient = Role::firstOrCreate(['name' => 'client', 'guard_name' => 'web']);
 
-// Créer une permission
-$permission = Permission::create(['name' => 'manage users']);
+        // Assigner des rôles aux utilisateurs spécifiques (vérifiez d'abord que les utilisateurs existent)
+        if ($user = User::find(1)) {
+            $user->assignRole('client');
+        }
 
-// Assigner une permission à un rôle
-$role->givePermissionTo('manage users');
+        if ($user = User::find(2)) {
+            $user->assignRole('fournisseur');
+        }
 
-// Assigner un rôle à un utilisateur
-$user = User::find(2);
-$user->assignRole('fournisseur');
-// Créer un rôle
-$role = Role::create(['name' => 'admin']);
+        if ($user = User::find(3)) {
+            $user->assignRole('supermarche');
+        }
 
-// Créer une permission
-$permission = Permission::create(['name' => 'manage users']);
-
-// Assigner une permission à un rôle
-$role->givePermissionTo('manage users');
-
-// Assigner un rôle à un utilisateur
-$user = User::find(3);
-$user->assignRole('supermarche');
-// Créer un rôle
-$role = Role::create(['name' => 'admin']);
-
-// Créer une permission
-$permission = Permission::create(['name' => 'manage users']);
-
-// Assigner une permission à un rôle
-$role->givePermissionTo('manage users');
-
-// Assigner un rôle à un utilisateur
-$user = User::find(4);
-$user->assignRole('admin');;
-}
+        if ($user = User::find(4)) {
+            $user->assignRole('admin');
+        }
+    }
 }

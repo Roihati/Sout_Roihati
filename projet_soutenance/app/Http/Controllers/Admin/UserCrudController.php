@@ -30,35 +30,31 @@ class UserCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
         CRUD::setEntityNameStrings('user', 'users');
 
-        //ajouter un champ
-        $this->crud->addFields([
-
-            [
-                'name' => 'role_id',
-                'label' => 'Role',
-                'type' => 'select',
-                'entity' => 'role',
-                'attribute' => 'libele_role',
-                'model' => 'App\Models\Role',
-            ]
+        // Ajouter un champ pour le rôle
+        $this->crud->addField([
+            'name' => 'role_id', // Nom du champ
+            'label' => 'Rôle', // Étiquette affichée
+            'type' => 'select', // Type de champ
+            'entity' => 'role', // Nom de la relation
+            'model' => "App\Models\Role", // Modèle associé
+            'attribute' => 'nom', // Attribut à afficher dans le select
+            'placeholder' => 'Sélectionnez un rôle', // Placeholder
         ]);
-        //Ajouter la colone dans la liste
-        $this->crud->addColumns([
 
-            [
-                'name' => 'role_id',
-                'label' => 'Role',
-                'type' => 'select',
-                'entity' => 'Role',
-                'attribute' => 'libele_role',
-                'model' => 'App\Models\Role',
-                'options'   => (function ($query) {
-         return $query->orderBy('name', 'ASC')->get();
-    }),
-    'allows_multiple' => true, // Permet la sélection multiple
-                
-            ],
+        // Ajouter la colonne dans la liste
+        $this->crud->addColumn([
+            'name' => 'role_id',
+            'label' => 'Rôle',
+            'type' => 'select',
+            'entity' => 'role', // Nom de la relation
+            'model' => "App\Models\Role", // Modèle associé
+            'attribute' => 'nom', // Attribut à afficher dans le select
+            'options'   => (function ($query) {
+                return $query->orderBy('nom', 'ASC')->get();
+            }),
         ]);
+        
+        // Si vous utilisez Spatie pour les rôles, ajoutez ce champ pour les rôles multiples
         $this->crud->addField([
             'name' => 'roles',
             'type' => 'relationship', // Utilise le champ relationship à la place
@@ -68,11 +64,7 @@ class UserCrudController extends CrudController
             'attribute' => 'name',
             'pivot' => true,
         ]);
-        
-        
-        //$this->crud->removeColumn('Role');
     }
-   
     
     /**
      * Define what happens when the List operation is loaded.
@@ -83,11 +75,6 @@ class UserCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::setFromDb(); // set columns from db columns.
-
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
     }
 
     /**
@@ -100,11 +87,6 @@ class UserCrudController extends CrudController
     {
         CRUD::setValidation(UserRequest::class);
         CRUD::setFromDb(); // set fields from db columns.
-
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
     }
 
     /**

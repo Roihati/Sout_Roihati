@@ -36,6 +36,8 @@
                 <label for="status" class="block text-gray-700">status</label>
                 <input type="text" name="status" id="status" required class="border rounded w-full py-2 px-3">
             </div>
+
+             
             <div class="flex items-center">
                 <button type="submit" class="flex items-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
                     <i class="fas fa-paper-plane mr-2"></i> S'abonner

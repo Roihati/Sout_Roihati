@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     @include('fournisseur.deconnexion')
+    <br>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +30,11 @@
                     <td class="border border-gray-300 p-4">{{ $abonnement->created_at->format('d/m/Y') }}</td>
                     <td class="border border-gray-300 p-4 flex space-x-2"> <!-- Flex pour aligner les boutons -->
                         <!-- Bouton Activer -->
+                        <form action="{{ route('fournisseur.dashboard.activate', $abonnement->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success">Activer</button>
+                        </form>
                         <form action="{{ route('fournisseur.dashboard.activate', $abonnement->id) }}" method="POST">
                             @csrf
                             @method('PUT')
