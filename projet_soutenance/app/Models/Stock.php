@@ -10,5 +10,10 @@ class Stock extends Model
     use HasFactory;
 
     protected $fillable =
-     ['product_name', 'current_stock', 'alert__threshold'];
+     ['product_name', 'current_stock',
+     
+     
+     'alert__threshold',  'product_id'];
+
 }
+

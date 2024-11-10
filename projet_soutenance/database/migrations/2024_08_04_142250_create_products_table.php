@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            
             $table->decimal('price', 8, 2);
             $table->string('category');
             $table->integer('stock');
             $table->string('image')->default('/assets/images/no_images.png');
-          # $table->foreign('favorite_id')->references('id')->on('favorite')->onDelete('cascade'); 
+            $table->foreignId('category_id')->constrained('categories');
+           $table->foreign('favorite_id')->references('id')->on('favorite')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

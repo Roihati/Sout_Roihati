@@ -36,7 +36,7 @@ return [
 
     'markdown' => [
         'theme' => 'default',
-    
+
         'paths' => [
             resource_path('views/vendor/contact'),
         ],
@@ -44,8 +44,8 @@ return [
 
 
     //configure 
-    
-    'driver' => env('MAIL_MAILER', 'smtp'),
+
+    'driver' => env('MAIL_DRIVER', 'smtp'),
     'mailers' => [
 
         'smtp' => [
@@ -58,9 +58,9 @@ return [
             'password' => env('=binti2114'),
 
             'from' => [
-    'address' => env('MAIL_FROM_ADDRESS', 'roihatibinti@gmail.com'),
-    'name' => env('MAIL_FROM_NAME', 'Example'),
-],
+                'address' => env('MAIL_FROM_ADDRESS', 'roihatibinti@gmail.com'),
+                'name' => env('MAIL_FROM_NAME', 'Example'),
+            ],
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
@@ -113,7 +113,7 @@ return [
     */
 
 
-    
+
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'roihatibinti@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Contact'),

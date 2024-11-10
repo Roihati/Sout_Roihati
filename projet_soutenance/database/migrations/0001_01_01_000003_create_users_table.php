@@ -26,6 +26,8 @@ return new class extends Migration
        #$table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
        # $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         $table->rememberToken();
+         #$table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
+          #$table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
         $table->timestamps();
     
      

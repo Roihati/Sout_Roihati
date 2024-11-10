@@ -3,7 +3,7 @@
     @include('fournisseur.deconnexion')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Produit - Interface Fournisseurs</title>
+    <title>Ajouter un Produit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
                 @csrf
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Nom du produit</label>
-                    <input type="text" id="name" name ="name" x-model="product.nom" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="text" id="name" name ="name" x-model="product.name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 </div>
                 
                 <div>
@@ -99,6 +99,5 @@
 
         </div>
     </div>
-
 </body>
 </html>

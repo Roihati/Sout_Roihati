@@ -12,12 +12,7 @@ class Supermarche extends Model
 
     use HasFactory;
 
-    protected $fillable = [
-        'nom',
-        'adress',
-        'email',
-        // Autres champs nécessaires
-    ];
+    protected $fillable = ['nom', 'adresse', 'telephone', 'email'];
 
     public function commandes()
     {

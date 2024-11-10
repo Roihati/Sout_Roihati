@@ -2,8 +2,9 @@
   @include('fournisseur.deconnexion')
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Catalogue des Fournisseurs</title>
+  <title>Catalogue </title>
   <style>
     .category-card, .product-card {
       transition: all 0.3s ease;
@@ -13,8 +14,6 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
-
-  
   </head>
   <body class="bg-gray-100 min-h-screen">
     <header class="bg-blue-600 text-white p-4">
@@ -33,6 +32,17 @@
       <button id="backToCategories" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 hidden">
         Retour aux catégories
       </button>
+
+
+      @section('content')
+    <div id="categoryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        @foreach ($categories as $category)
+            <div class="category-card bg-white p-6 rounded-lg shadow-md text-center cursor-pointer" data-id="{{ $category->id }}">
+                <div class="text-4xl mb-2">{{ $category->icon ?? '' }}</div>
+                <h3 class="text-xl font-bold">{{ $category->libele }}</h3>
+            </div>
+        @endforeach
+    </div>
   
       <div id="addProductForm" class="mt-8 bg-white p-6 rounded-lg shadow-md hidden">
         <h2 class="text-2xl font-bold mb-4">Ajouter un nouveau produit</h2>
@@ -63,15 +73,17 @@
         </form>
       </div>
     </main>
-    @include('fournisseur.footer')
+   
     <script>
+      // Références des éléments HTML
       const categoryList = document.getElementById('categoryList');
       const productList = document.getElementById('productList');
       const addProductForm = document.getElementById('addProductForm');
       const productForm = document.getElementById('productForm');
       const backToCategoriesBtn = document.getElementById('backToCategories');
       const productCategorySelect = document.getElementById('productCategory');
-  
+    
+      // Données fictives des catégories et des produits (à remplacer par des données venant du backend)
       let categories = [
         { id: 1, name: "Électronique", icon: "📱" },
         { id: 2, name: "Alimentation", icon: "🍎" },
@@ -82,7 +94,7 @@
         { id: 7, name: "Beauté", icon: "💄" },
         { id: 8, name: "Jouets", icon: "🧸" }
       ];
-  
+    
       let products = [
         { id: 1, name: "Smartphone XYZ", category: 1, description: "Dernier modèle avec caméra haute résolution", price: 699.99 },
         { id: 2, name: "Bananes Bio", category: 2, description: "Bananes fraîches et biologiques", price: 2.99 },
@@ -93,7 +105,8 @@
         { id: 7, name: "Rouge à lèvres", category: 7, description: "Couleur intense et longue tenue", price: 15.99 },
         { id: 8, name: "Peluche interactive", category: 8, description: "Peluche éducative pour enfants", price: 34.99 }
       ];
-  
+    
+      // Affichage des catégories
       function displayCategories() {
         categoryList.innerHTML = '';
         categories.forEach(category => {
@@ -107,11 +120,12 @@
           categoryList.appendChild(categoryCard);
         });
       }
-  
+    
+      // Affichage des produits d'une catégorie
       function displayProducts(categoryId) {
         productList.innerHTML = '';
         const filteredProducts = products.filter(p => p.category === categoryId);
-  
+    
         filteredProducts.forEach(product => {
           const productCard = document.createElement('div');
           productCard.className = 'product-card bg-white p-6 rounded-lg shadow-md';
@@ -122,18 +136,20 @@
           `;
           productList.appendChild(productCard);
         });
-  
+    
         categoryList.classList.add('hidden');
         productList.classList.remove('hidden');
         backToCategoriesBtn.classList.remove('hidden');
       }
-  
+    
+      // Retour aux catégories
       backToCategoriesBtn.addEventListener('click', () => {
         categoryList.classList.remove('hidden');
         productList.classList.add('hidden');
         backToCategoriesBtn.classList.add('hidden');
       });
-  
+    
+      // Remplir la liste déroulante des catégories
       function populateCategorySelect() {
         productCategorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>';
         categories.forEach(category => {
@@ -143,28 +159,48 @@
           productCategorySelect.appendChild(option);
         });
       }
-  
-      productForm.addEventListener('submit', (e) => {
+    
+      // Gestion de l'ajout de produit via le formulaire
+      productForm.addEventListener('submit', function(e) {
         e.preventDefault();
+    
+        // Création d'un nouvel objet produit
         const newProduct = {
-          id: products.length + 1,
           name: productForm.productName.value,
-          category: parseInt(productForm.productCategory.value),
           description: productForm.productDescription.value,
-          price: parseFloat(productForm.productPrice.value)
+          price: parseFloat(productForm.productPrice.value),
+          category_id: parseInt(productForm.productCategory.value)
         };
-        products.push(newProduct);
-        productForm.reset();
-        addProductForm.classList.add('hidden');
-        displayCategories();
-        alert('Produit ajouté avec succès !');
+    
+        // Envoi des données au backend via AJAX
+        const data = new FormData();
+        data.append('name', newProduct.name);
+        data.append('description', newProduct.description);
+        data.append('price', newProduct.price);
+        data.append('category_id', newProduct.category_id);
+        data.append('_token', document.querySelector('meta[name="csrf-token"]').content);  // CSRF token pour Laravel
+    
+        fetch('/products', {
+          method: 'POST',
+          body: data
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);  // Affichage du message de succès
+            window.location.href = '/categories';  // Redirection vers la liste des catégories
+          } else {
+            alert('Une erreur est survenue.');
+          }
+        })
+        .catch(error => console.error('Erreur:', error));
       });
-  
+    
       // Initialisation
       displayCategories();
       populateCategorySelect();
-  
-      // Ajout d'un bouton pour afficher le formulaire d'ajout de produit
+    
+      // Affichage du formulaire d'ajout de produit
       const addProductBtn = document.createElement('button');
       addProductBtn.textContent = 'Ajouter un produit';
       addProductBtn.className = 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4';
@@ -176,5 +212,6 @@
       });
       document.querySelector('main').insertBefore(addProductBtn, addProductForm);
     </script>
+    
   </body>
   </html>

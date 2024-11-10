@@ -27,13 +27,17 @@ use App\Http\Controllers\suppermarche\InformationController;
 use App\Http\Controllers\suppermarche\PromotionController;
 use App\Http\Controllers\suppermarche\SuppermarcheController;
 
+
+use App\Http\Controllers\fournisseur\LigneCommandeController;
 use App\Http\Middleware\ClientMiddleware;
 use App\Http\Middleware\FournisseurMiddleware;
 use App\Http\Middleware\SupermarcheMiddleware;
+use App\Http\Middleware\Check404\Middleware;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Check404Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +51,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Routes publiques
-Route::get('/', function () {
+Route:: get('/', function () {
     return view('welcome');
 })->name('acceil');
 
@@ -88,7 +92,12 @@ Route::middleware('auth')->group(function () {
 
 // Auth routes
 require __DIR__ . '/auth.php';
+Route::middleware(['check404'])->group(function () {
+ //recherche de produits
+Route::get('//errors', [Check404Controller::class, 'check404'])->name('errors.404');
 
+
+});
 // Routes fournisseur protégées par middleware
 Route::middleware(['auth', FournisseurMiddleware::class])->group(function () {
     Route::get("/fournisseur/Accueil", [FournisseurController::class, 'index'])->name("fournisseur.accueil");
@@ -97,6 +106,7 @@ Route::middleware(['auth', FournisseurMiddleware::class])->group(function () {
     Route::get('/fournisseur/product', [ProductController::class, 'index'])->name('fournisseur.product'); // Pour afficher le formulaire
     Route::post('/fournisseur/product', [ProductController::class, 'store'])->name('fournisseur.product.store'); // Pour traiter le formulaire
     Route::get('/fournisseur/list_product', [ProductController::class, 'list'])->name('fournisseur.list_product');
+    
     Route::get('/fournisseur/show', [ProductController::class, 'show'])->name('fournisseur.show');
     Route::get('/fournisseur/{id}/edit', [ProductController::class, 'edit'])->name('fournisseur.update');
     Route::post('/fournisseur/{id}/edit', [ProductController::class, 'update'])->name('fournisseur.update');
@@ -106,10 +116,21 @@ Route::middleware(['auth', FournisseurMiddleware::class])->group(function () {
     Route::get('/commandes', [CommandeController::class, 'index'])->name('fournisseur.commande');
     Route::post('/commandes', [CommandeController::class, 'store'])->name('fournisseur.commande.store');
     Route::delete('/commandes/{id}', [CommandeController::class, 'destroy'])->name('fournisseur.destroy');
+    // ligne de commande
+
+
+Route::get('/lignes/create/{commandeId}', [LigneCommandeController::class, 'create'])->name('fournisseur.lignes');
+Route::post('/lignes', [LigneCommandeController::class, 'store'])->name('fournisseur.lignes.store');
+//Route::get("/fournisseur/lignecommande", [LigneCommandeController::class, 'ligne'])->name("fournisseur.lignes");
 
     // Suivi de commande et autres fonctionnalités fournisseur
     Route::get("/fournisseur/suivicommande", [SuiviCommandeController::class, 'suivicommande'])->name("fournisseur.suivicommande");
     Route::get("/fournisseur/Rapport", [RapportController::class, 'rapport'])->name("fournisseur.rapport");
+
+    //category produit
+    Route::get('/categories', [CategoryController::class, 'category'])->name('fournisseur.category');
+Route::get('/categories/{id}/products', [ProductController::class, 'index'])->name('fournisseur.products');
+Route::post('/products', [ProductController::class, 'store'])->name('fournisseur.store');
     Route::get("/fournisseur/category", [CategoryController::class, 'index'])->name("fournisseur.category");
 
     // Abonnement du supermarché auprès du fournisseur
@@ -121,8 +142,10 @@ Route::middleware(['auth', FournisseurMiddleware::class])->group(function () {
         Route::put('/abonnements/{id}/deactivate', [AbonnementController::class, 'deactivate'])->name('fournisseur.dashboard.deactivate');
 
         //gestion des stock
-    Route::get('/fournisseur/stock', [StockController::class, 'stock'])->name('fournisseur.stock');
-          Route::post('/stocks', [StockController::class, 'store']);
+
+        Route::get('/fournisseur/stocks', [StockController::class, 'index'])->name('fournisseur.stock');
+        Route::put('/fournisseur/stocks/{id}', [StockController::class, 'updateStock'])->name('fournisseur.updateStock');
+
     });
 });
 
@@ -144,6 +167,14 @@ Route::middleware(['auth', SupermarcheMiddleware::class])->group(function () {
     
     // Ajout de fournisseur par le supermarché
     Route::get("/suppermarche/add", [AjouteFournisseurController::class, 'add'])->name("suppermarche.add");
+
+    //ajouter un suppermarche
+
+Route::get("/suppermarche/create",[SuppermarcheController::class, 'create'])->name('suppermarche.create');
+Route::post("/supermarche",[SuppermarcheController::class, 'store'])->name('supermarche.store');
+
+
+Route::get('/supermarches', [SuppermarcheController::class, 'index1'])->name('suppermarche.index');
 });
 
 // Routes pour les feedbacks clients

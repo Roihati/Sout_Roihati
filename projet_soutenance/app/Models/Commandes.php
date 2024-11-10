@@ -3,6 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Supermarche;
+use App\Models\Products;
+
 
 class Commandes extends Model
 {
@@ -10,7 +13,7 @@ class Commandes extends Model
 
     protected $fillable = [
         'id_supermarche',
-        'produit_id',
+        'product_id',
         'quantite',
         'date_livraison',
         'status',
@@ -18,12 +21,17 @@ class Commandes extends Model
 
     public function products()
     {
-        return $this->belongsTo(Products::class, 'produit_id'); // Utilisez Product ici
+        return $this->belongsTo(Products::class, 'product_id'); // Utilisez Product ici
         
     }
 
-    public function supermarche()
+    public function supermarches()
     {
-        return $this->belongsTo(Supermarche::class, 'id_supermarche');
+        return $this->belongsTo(Supermarche::class ,'id_supermarche');
+
     }
+    public function lignes()
+{
+    return $this->hasMany(LigneCommande::class);
+}
 }

@@ -132,7 +132,7 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-// config/adminlte.php
+    // config/adminlte.php
 
 
     'usermenu_enabled' => true,
@@ -317,26 +317,27 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        
+
         [
             'text' => 'Dashboard',
             'url'  => '/suppermarche/supermaket',
             'icon' => 'fas fa-fw fa-tachometer-alt',
         ],
-     
+
+
 
         [
             'text' => 'profile',
             'url' => '/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
-       
+
         [
             'text' => 'Users',
             'url'  => '/client/Home',
             'icon' => 'fas fa-fw fa-user',
         ],
-       
+
         [
             'text' => 'important',
             'icon_color' => 'red',
@@ -363,20 +364,24 @@ return [
             'url'  => '/promotions',
             'icon' => 'fas fa-fw fa-tags',
         ],
-        
-        
-            [
-                'text' => 'Ajout',
-                'url'  => '/suppermarche/add',
-                'icon' => 'fas fa-plus-circle', // Icône pour "Ajouter un fournisseur"
-            ],
-            [
-                'text' => 'Product',
-                'url'  => '/fournisseur/product',
-                'icon' => 'fas fa-box', // Icône pour "Produits"
-            ],
-           
-        
+
+
+        [
+            'text' => 'Ajout',
+            'url'  => '/suppermarche/add',
+            'icon' => 'fas fa-plus-circle', // Icône pour "Ajouter un fournisseur"
+        ],
+        [
+            'text' => 'Product',
+            'url'  => '/fournisseur/product',
+            'icon' => 'fas fa-box', // Icône pour "Produits"
+        ],
+        [
+            'text' => 'Supermarche',
+            'url'  => '/suppermarche/create',
+            'icon' => 'fas fa-store', // Icône pour "Supermarché"
+        ],
+
     ],
 
 
